@@ -1,16 +1,119 @@
-# React + Vite
+# Huishoudboekje
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Vite React app for the ADWEB final assignment. The app uses Firebase Authentication and Firestore.
 
-Currently, two official plugins are available:
+## Setup
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Install dependencies:
 
-## React Compiler
+```bash
+npm install
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Create a local `.env.local` file using [.env.example](.env.example) as the required variable checklist. Do not commit `.env.local`.
 
-## Expanding the Oxlint configuration
+Firebase must have:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+- Authentication with the Email/Password provider enabled.
+- Firestore Database enabled.
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+## Scripts
+
+```bash
+npm run dev
+npm run build
+npm run preview
+npm run lint
+npm test
+npm run test:coverage
+```
+
+## Routes
+
+- `/login`: login and registration.
+- `/budget-books`: overview of active and archived budget books.
+- `/budget-books/:id`: detail page for one budget book.
+
+## Firestore
+
+Collection:
+
+```txt
+budgetBooks
+```
+
+Document shape:
+
+```js
+{
+  name: "Fixed costs",
+  description: "Monthly fixed expenses",
+  ownerId: "firebase-user-id",
+  archived: false,
+  createdAt: serverTimestamp()
+}
+```
+
+Rules in the app logic:
+
+- `name` is required.
+- `ownerId` is the Firebase Auth UID of the owner.
+- The active list filters on `archived === false`.
+- The archived list filters on `archived === true`.
+
+## Code Structure
+
+```txt
+src/
+├─ App.jsx
+├─ main.jsx
+├─ index.css
+├─ pages/
+│  ├─ LoginPage.jsx
+│  ├─ BudgetBooksPage.jsx
+│  └─ BudgetBookDetailPage.jsx
+├─ components/
+│  ├─ common/
+│  │  ├─ Button.jsx
+│  │  ├─ Field.jsx
+│  │  ├─ Panel.jsx
+│  │  └─ RequireAuth.jsx
+│  ├─ budgetBooks/
+│  │  ├─ BudgetBookForm.jsx
+│  │  ├─ BudgetBookItem.jsx
+│  │  └─ BudgetBookList.jsx
+│  ├─ categories/
+│  └─ expenses/
+├─ contexts/
+│  └─ AuthContext.jsx
+├─ hooks/
+│  └─ useBudgetBooks.js
+├─ services/
+│  ├─ authService.js
+│  └─ budgetBooksService.js
+├─ lib/
+│  └─ firebase.js
+└─ test/
+   └─ setup.js
+```
+
+Important pattern:
+
+```txt
+Page -> Hook -> Service -> Firebase
+```
+
+Example:
+
+```txt
+BudgetBooksPage
+  -> useBudgetBooks
+    -> budgetBooksService
+      -> Firestore
+```
