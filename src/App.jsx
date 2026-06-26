@@ -1,8 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import RequireAuth from "./components/common/RequireAuth";
-import LoginPage from "./pages/LoginPage";
-import BudgetBooksPage from "./pages/BudgetBooksPage";
+import LoginPage from "./pages/auth/LoginPage";
+import BudgetBookDetailPage from "./pages/budgetBooks/BudgetBookDetailPage";
+import BudgetBooksPage from "./pages/budgetBooks/BudgetBooksPage";
 
 function App() {
   return (
@@ -18,7 +19,14 @@ function App() {
               </RequireAuth>
             }
           />
-          {/* TODO: Add /budget-books/:id route for transactions and categories. */}
+          <Route
+            path="/budget-books/:id"
+            element={
+              <RequireAuth>
+                <BudgetBookDetailPage />
+              </RequireAuth>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
