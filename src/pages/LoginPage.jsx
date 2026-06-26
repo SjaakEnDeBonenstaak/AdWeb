@@ -7,19 +7,19 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const [email, setEmail] = useState("");
-  const [wachtwoord, setWachtwoord] = useState("");
-  const [foutmelding, setFoutmelding] = useState(null);
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState(null);
 
-  const bestemming = location.state?.from?.pathname ?? "/boekjes";
+  const destination = location.state?.from?.pathname ?? "/budget-books";
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setFoutmelding(null);
+    setErrorMessage(null);
     try {
-      await login(email, wachtwoord);
-      navigate(bestemming, { replace: true });
+      await login(email, password);
+      navigate(destination, { replace: true });
     } catch {
-      setFoutmelding("Inloggen mislukt. Controleer je gegevens.");
+      setErrorMessage("Inloggen mislukt. Controleer je gegevens.");
     }
   }
 
@@ -30,10 +30,10 @@ export default function LoginPage() {
         <input type="email" placeholder="E-mailadres" value={email}
           onChange={(e) => setEmail(e.target.value)} required
           className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm" />
-        <input type="password" placeholder="Wachtwoord" value={wachtwoord}
-          onChange={(e) => setWachtwoord(e.target.value)} required
+        <input type="password" placeholder="Wachtwoord" value={password}
+          onChange={(e) => setPassword(e.target.value)} required
           className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm" />
-        {foutmelding && <p className="text-sm text-red-600">{foutmelding}</p>}
+        {errorMessage && <p className="text-sm text-red-600">{errorMessage}</p>}
         <button type="submit"
           className="w-full rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700">
           Inloggen

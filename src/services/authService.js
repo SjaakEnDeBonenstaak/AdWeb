@@ -9,12 +9,12 @@ import { auth } from "../lib/firebase";
 export function subscribeToAuthState(callback) {
   return onAuthStateChanged(auth, callback);
 }
-export async function login(email, wachtwoord) {
-  return signInWithEmailAndPassword(auth, email, wachtwoord);
+export async function login(email, password) {
+  return signInWithEmailAndPassword(auth, email, password);
 }
-export async function registreer(email, wachtwoord) {
-  return createUserWithEmailAndPassword(auth, email, wachtwoord);
+export async function register(email, password) {
+  return createUserWithEmailAndPassword(auth, email, password);
 }
-export async function uitloggen() {
+export async function logout() {
   return firebaseSignOut(auth);
 }

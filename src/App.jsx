@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import RequireAuth from "./components/common/RequireAuth";
 import LoginPage from "./pages/LoginPage";
-import HuishoudboekjesPage from "./pages/HuishoudboekjesPage";
+import BudgetBooksPage from "./pages/BudgetBooksPage";
 
 function App() {
   return (
@@ -11,15 +11,14 @@ function App() {
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route
-            path="/boekjes"
+            path="/budget-books"
             element={
               <RequireAuth>
-                <HuishoudboekjesPage />
+                <BudgetBooksPage />
               </RequireAuth>
             }
           />
-          {/* TODO: route /boekjes/:id voor uitgaven + categorieën van
-              één huishoudboekje (gebruik useUitgaven / useCategorieen) */}
+          {/* TODO: Add /budget-books/:id route for transactions and categories. */}
         </Routes>
       </BrowserRouter>
     </AuthProvider>
