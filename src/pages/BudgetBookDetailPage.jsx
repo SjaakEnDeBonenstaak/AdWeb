@@ -1,32 +1,32 @@
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { ButtonLink } from "../components/common/Button";
+import Panel from "../components/common/Panel";
 
 export default function BudgetBookDetailPage() {
   const { id } = useParams();
 
   return (
-    <div className="mx-auto max-w-3xl space-y-6 p-6">
-      <Link to="/budget-books" className="text-sm font-medium text-blue-700 hover:text-blue-800">
-        Terug naar huishoudboekjes
-      </Link>
-
-      <header>
-        <h1 className="text-2xl font-semibold text-slate-900">Huishoudboekje</h1>
-        <p className="mt-1 text-sm text-slate-500">ID: {id}</p>
+    <main className="mx-auto max-w-3xl space-y-7 px-4 py-8 sm:px-6">
+      <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <p className="text-sm font-medium text-(--color-accent)">Huishoudboekje</p>
+          <h1 className="mt-1 text-3xl font-semibold text-(--color-text-primary)">Huishoudboekje</h1>
+          <p className="mt-1 text-sm text-(--color-text-muted)">ID: {id}</p>
+        </div>
+        <ButtonLink to="/budget-books" variant="secondary">
+          Terug
+        </ButtonLink>
       </header>
 
-      <section className="space-y-2 rounded-md border border-slate-200 p-4">
-        <h2 className="text-lg font-semibold text-slate-900">Uitgaven en inkomsten</h2>
-        <p className="text-sm text-slate-500">
-          Hier komt het overzicht van uitgaven en inkomsten.
-        </p>
-      </section>
+      <Panel className="space-y-2">
+        <h2 className="text-lg font-semibold text-(--color-text-primary)">Uitgaven en inkomsten</h2>
+        <p className="text-sm text-(--color-text-muted)">Hier komt het overzicht van uitgaven en inkomsten.</p>
+      </Panel>
 
-      <section className="space-y-2 rounded-md border border-slate-200 p-4">
-        <h2 className="text-lg font-semibold text-slate-900">Categorieën</h2>
-        <p className="text-sm text-slate-500">
-          Hier komt het overzicht van categorieën.
-        </p>
-      </section>
-    </div>
+      <Panel className="space-y-2">
+        <h2 className="text-lg font-semibold text-(--color-text-primary)">Categorieën</h2>
+        <p className="text-sm text-(--color-text-muted)">Hier komt het overzicht van categorieën.</p>
+      </Panel>
+    </main>
   );
 }

@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-
-const secondaryButtonClass =
-  "inline-flex items-center rounded-md border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-50";
+import { Button, ButtonLink } from "../common/Button";
+import { Field, TextArea, TextInput } from "../common/Field";
+import Panel from "../common/Panel";
 
 export default function BudgetBookItem({
   budgetBook,
@@ -16,6 +15,9 @@ export default function BudgetBookItem({
   const [description, setDescription] = useState(budgetBook.description ?? "");
   const [submitting, setSubmitting] = useState(false);
   const openPath = `/budget-books/${budgetBook.id}`;
+  const panelClass = archived
+    ? "border-dashed border-(--color-archived-border) bg-(--color-archived-surface) shadow-none"
+    : "shadow-none";
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -36,72 +38,89 @@ export default function BudgetBookItem({
 
   if (editing) {
     return (
-      <li className="rounded-md border border-slate-200 p-3">
-        <form onSubmit={handleSubmit} className="space-y-3">
-          <div>
-            <label htmlFor={`budget-book-${budgetBook.id}-name`}
-              className="block text-sm font-medium text-slate-700">
-              Naam
-            </label>
-            <input id={`budget-book-${budgetBook.id}-name`} type="text" value={name}
+      <li>
+        <Panel className="shadow-none">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <Field id={`budget-book-${budgetBook.id}-name`} label="Naam">
+              <TextInput id={`budget-book-${budgetBook.id}-name`} type="text" value={name}
               onChange={(e) => setName(e.target.value)} required
-              className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm" />
-          </div>
-          <div>
-            <label htmlFor={`budget-book-${budgetBook.id}-description`}
-              className="block text-sm font-medium text-slate-700">
-              Omschrijving
-            </label>
-            <textarea id={`budget-book-${budgetBook.id}-description`} value={description}
+              placeholder="Naam" />
+            </Field>
+            <Field id={`budget-book-${budgetBook.id}-description`} label="Omschrijving">
+              <TextArea id={`budget-book-${budgetBook.id}-description`} value={description}
               onChange={(e) => setDescription(e.target.value)} rows={3}
-              className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm" />
-          </div>
-          <div className="flex gap-2">
-            <button type="submit" disabled={submitting}
-              className="rounded-md bg-blue-600 px-3 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-slate-400">
+              placeholder="Omschrijving" />
+            </Field>
+            <div className="flex flex-wrap gap-2">
+              <Button type="submit" variant="primary" disabled={submitting}>
               {submitting ? "Opslaan..." : "Opslaan"}
-            </button>
-            <button type="button" onClick={cancelEditing}
-              className="rounded-md border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">
-              Annuleren
-            </button>
-          </div>
-        </form>
+              </Button>
+              <Button type="button" variant="secondary" onClick={cancelEditing}>
+                Annuleren
+              </Button>
+            </div>
+          </form>
+        </Panel>
       </li>
     );
   }
 
   return (
-    <li className="rounded-md border border-slate-200 p-3">
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <h2 className="font-medium text-slate-900">{budgetBook.name}</h2>
-          {budgetBook.description && (
-            <p className="mt-1 text-sm text-slate-500">{budgetBook.description}</p>
-          )}
+    <li>
+      <Panel className={panelClass}>
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <div className="flex flex-wrap items-center gap-2">
+              <h2 className={`font-semibold ${archived ? "text-(--color-text-secondary)" : "text-(--color-text-primary)"}`}>
+                {budgetBook.name}
+              </h2>
+              {archived && (
+                <span className="rounded-full bg-(--color-archived-badge) px-2.5 py-1 text-xs font-semibold text-(--color-text-muted)">
+                  Gearchiveerd
+                </span>
+              )}
+            </div>
+            {budgetBook.description && (
+              <p className="mt-1 text-sm text-(--color-text-muted)">
+                {budgetBook.description}
+              </p>
+            )}
+          </div>
+          <div className="flex shrink-0 flex-wrap gap-2">
+            {!archived && (
+              <ButtonLink to={openPath} variant="secondary">
+                Openen
+              </ButtonLink>
+            )}
+            {!archived && (
+              <Button
+                type="button"
+                variant="secondary"
+                onClick={() => setEditing(true)}
+              >
+                Bewerken
+              </Button>
+            )}
+            {archived ? (
+              <Button
+                type="button"
+                variant="secondary"
+                onClick={() => onRestoreBudgetBook(budgetBook.id)}
+              >
+                Herstellen
+              </Button>
+            ) : (
+              <Button
+                type="button"
+                variant="danger"
+                onClick={() => onArchiveBudgetBook(budgetBook.id)}
+              >
+                Archiveren
+              </Button>
+            )}
+          </div>
         </div>
-        <div className="flex shrink-0 gap-2">
-          {!archived && (
-            <Link to={openPath} className={secondaryButtonClass}>
-              Openen
-            </Link>
-          )}
-          {!archived && (
-            <button type="button" onClick={() => setEditing(true)} className={secondaryButtonClass}>
-              Bewerken
-            </button>
-          )}
-          {archived ? (
-            <button type="button" onClick={() => onRestoreBudgetBook(budgetBook.id)} className={secondaryButtonClass}>
-              Herstellen
-            </button>
-          ) : (
-            <button type="button" onClick={() => onArchiveBudgetBook(budgetBook.id)} className={secondaryButtonClass}>
-              Archiveren
-            </button>
-          )}
-        </div>
-      </div>
+      </Panel>
     </li>
   );
 }

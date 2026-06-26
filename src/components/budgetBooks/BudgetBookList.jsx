@@ -1,4 +1,5 @@
 import BudgetBookItem from "./BudgetBookItem";
+import Panel from "../common/Panel";
 
 export default function BudgetBookList({
   budgetBooks,
@@ -10,14 +11,16 @@ export default function BudgetBookList({
   onUpdateBudgetBook,
 }) {
   if (loading) {
-    return <p className="text-slate-500">Laden...</p>;
+    return <p className="text-(--color-text-muted)">Laden...</p>;
   }
 
   if (budgetBooks.length === 0) {
     return (
-      <p className="rounded-md border border-dashed border-slate-300 p-4 text-sm text-slate-500">
+      <Panel className="border-dashed shadow-none">
+        <p className="text-sm text-(--color-text-muted)">
         {emptyMessage}
-      </p>
+        </p>
+      </Panel>
     );
   }
 

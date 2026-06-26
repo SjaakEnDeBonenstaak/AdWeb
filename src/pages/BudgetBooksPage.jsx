@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import BudgetBookForm from "../components/budgetBooks/BudgetBookForm";
 import BudgetBookList from "../components/budgetBooks/BudgetBookList";
+import { Button } from "../components/common/Button";
 import { useAuth } from "../contexts/AuthContext";
 import { useBudgetBooks } from "../hooks/useBudgetBooks";
 
@@ -25,22 +26,22 @@ export default function BudgetBooksPage() {
   }
 
   return (
-    <div className="mx-auto max-w-2xl space-y-6 p-6">
-      <header className="flex items-center justify-between gap-4">
+    <main className="mx-auto max-w-3xl space-y-7 px-4 py-8 sm:px-6">
+      <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-slate-900">Mijn huishoudboekjes</h1>
-          {user?.email && <p className="text-sm text-slate-500">{user.email}</p>}
+          <p className="text-sm font-medium text-(--color-accent)">Huishoudboekje</p>
+          <h1 className="mt-1 text-3xl font-semibold text-(--color-text-primary)">Mijn huishoudboekjes</h1>
+          {user?.email && <p className="mt-1 text-sm text-(--color-text-muted)">{user.email}</p>}
         </div>
-        <button type="button" onClick={handleLogout}
-          className="rounded-md border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">
+        <Button type="button" variant="secondary" onClick={handleLogout}>
           Uitloggen
-        </button>
+        </Button>
       </header>
 
       <BudgetBookForm error={error} onAddBudgetBook={add} />
 
       <section className="space-y-3">
-        <h2 className="text-lg font-semibold text-slate-900">Actieve huishoudboekjes</h2>
+        <h2 className="text-lg font-semibold text-(--color-text-primary)">Actieve huishoudboekjes</h2>
         <BudgetBookList budgetBooks={budgetBooks}
           loading={loading}
           emptyMessage="Je hebt nog geen huishoudboekjes."
@@ -49,7 +50,7 @@ export default function BudgetBooksPage() {
       </section>
 
       <section className="space-y-3">
-        <h2 className="text-lg font-semibold text-slate-900">Gearchiveerde huishoudboekjes</h2>
+        <h2 className="text-lg font-semibold text-(--color-text-primary)">Gearchiveerde huishoudboekjes</h2>
         <BudgetBookList budgetBooks={archivedBudgetBooks}
           loading={archivedLoading}
           archived
@@ -57,6 +58,6 @@ export default function BudgetBooksPage() {
           onRestoreBudgetBook={restore}
           onUpdateBudgetBook={update} />
       </section>
-    </div>
+    </main>
   );
 }

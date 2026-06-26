@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { Button } from "../common/Button";
+import { Field, TextArea, TextInput } from "../common/Field";
+import Panel from "../common/Panel";
 
 export default function BudgetBookForm({ error, onAddBudgetBook }) {
   const [name, setName] = useState("");
@@ -18,28 +21,23 @@ export default function BudgetBookForm({ error, onAddBudgetBook }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-3 rounded-md border border-slate-200 p-4">
-      <div>
-        <label htmlFor="budget-book-name" className="block text-sm font-medium text-slate-700">
-          Naam
-        </label>
-        <input id="budget-book-name" type="text" value={name}
+    <Panel>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <Field id="budget-book-name" label="Naam">
+          <TextInput id="budget-book-name" type="text" value={name}
           onChange={(e) => setName(e.target.value)} required
-          className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm" />
-      </div>
-      <div>
-        <label htmlFor="budget-book-description" className="block text-sm font-medium text-slate-700">
-          Omschrijving
-        </label>
-        <textarea id="budget-book-description" value={description}
+          placeholder="Bijvoorbeeld vaste lasten" />
+        </Field>
+        <Field id="budget-book-description" label="Omschrijving">
+          <TextArea id="budget-book-description" value={description}
           onChange={(e) => setDescription(e.target.value)} rows={3}
-          className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm" />
-      </div>
-      {error && <p className="text-sm text-red-600">{error}</p>}
-      <button type="submit" disabled={submitting}
-        className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-slate-400">
-        {submitting ? "Opslaan..." : "Huishoudboekje toevoegen"}
-      </button>
-    </form>
+          placeholder="Waar gebruik je dit huishoudboekje voor?" />
+        </Field>
+        {error && <p className="text-sm text-(--color-danger)">{error}</p>}
+        <Button type="submit" variant="primary" disabled={submitting}>
+          {submitting ? "Opslaan..." : "Huishoudboekje toevoegen"}
+        </Button>
+      </form>
+    </Panel>
   );
 }
