@@ -1,11 +1,13 @@
 import { useNavigate } from "react-router-dom";
+import BudgetBookForm from "../components/budgetBooks/BudgetBookForm";
+import BudgetBookList from "../components/budgetBooks/BudgetBookList";
 import { useAuth } from "../contexts/AuthContext";
 import { useBudgetBooks } from "../hooks/useBudgetBooks";
 
 export default function BudgetBooksPage() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const { budgetBooks, loading } = useBudgetBooks(user?.uid);
+  const { budgetBooks, loading, error, add } = useBudgetBooks(user?.uid);
 
   async function handleLogout() {
     await logout();
@@ -24,18 +26,9 @@ export default function BudgetBooksPage() {
           Uitloggen
         </button>
       </header>
-      {/* TODO: Replace this with BudgetBookForm and BudgetBookList components. */}
-      {loading ? (
-        <p className="text-slate-500">Laden...</p>
-      ) : (
-        <ul className="space-y-2">
-          {budgetBooks.map((budgetBook) => (
-            <li key={budgetBook.id} className="rounded-md border border-slate-200 p-3">
-              {budgetBook.name}
-            </li>
-          ))}
-        </ul>
-      )}
+
+      <BudgetBookForm error={error} onAddBudgetBook={add} />
+      <BudgetBookList budgetBooks={budgetBooks} loading={loading} />
     </div>
   );
 }
