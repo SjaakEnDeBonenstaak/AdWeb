@@ -1,4 +1,8 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
+
+const secondaryButtonClass =
+  "inline-flex items-center rounded-md border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-50";
 
 export default function BudgetBookItem({
   budgetBook,
@@ -11,6 +15,7 @@ export default function BudgetBookItem({
   const [name, setName] = useState(budgetBook.name);
   const [description, setDescription] = useState(budgetBook.description ?? "");
   const [submitting, setSubmitting] = useState(false);
+  const openPath = `/budget-books/${budgetBook.id}`;
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -77,19 +82,21 @@ export default function BudgetBookItem({
         </div>
         <div className="flex shrink-0 gap-2">
           {!archived && (
-            <button type="button" onClick={() => setEditing(true)}
-              className="rounded-md border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-50">
+            <Link to={openPath} className={secondaryButtonClass}>
+              Openen
+            </Link>
+          )}
+          {!archived && (
+            <button type="button" onClick={() => setEditing(true)} className={secondaryButtonClass}>
               Bewerken
             </button>
           )}
           {archived ? (
-            <button type="button" onClick={() => onRestoreBudgetBook(budgetBook.id)}
-              className="rounded-md border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-50">
+            <button type="button" onClick={() => onRestoreBudgetBook(budgetBook.id)} className={secondaryButtonClass}>
               Herstellen
             </button>
           ) : (
-            <button type="button" onClick={() => onArchiveBudgetBook(budgetBook.id)}
-              className="rounded-md border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-50">
+            <button type="button" onClick={() => onArchiveBudgetBook(budgetBook.id)} className={secondaryButtonClass}>
               Archiveren
             </button>
           )}
