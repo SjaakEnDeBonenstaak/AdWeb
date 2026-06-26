@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
-import BudgetBookForm from "../components/budgetBooks/BudgetBookForm";
-import BudgetBookList from "../components/budgetBooks/BudgetBookList";
-import { Button } from "../components/common/Button";
-import { useAuth } from "../contexts/AuthContext";
-import { useBudgetBooks } from "../hooks/useBudgetBooks";
+import BudgetBookForm from "../../components/budgetBooks/BudgetBookForm";
+import BudgetBookList from "../../components/budgetBooks/BudgetBookList";
+import { Button } from "../../components/common/Button";
+import { useAuth } from "../../contexts/AuthContext";
+import { useBudgetBooks } from "../../hooks/useBudgetBooks";
 
 export default function BudgetBooksPage() {
   const { user, logout } = useAuth();

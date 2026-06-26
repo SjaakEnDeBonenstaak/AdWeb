@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Button } from "../components/common/Button";
-import { TextInput } from "../components/common/Field";
-import Panel from "../components/common/Panel";
-import { useAuth } from "../contexts/AuthContext";
+import { Button } from "../../components/common/Button";
+import { TextInput } from "../../components/common/Field";
+import Panel from "../../components/common/Panel";
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function LoginPage() {
   const { login, register } = useAuth();

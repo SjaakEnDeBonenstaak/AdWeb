@@ -75,9 +75,11 @@ src/
 ├─ main.jsx
 ├─ index.css
 ├─ pages/
-│  ├─ LoginPage.jsx
-│  ├─ BudgetBooksPage.jsx
-│  └─ BudgetBookDetailPage.jsx
+│  ├─ auth/
+│  │  └─ LoginPage.jsx
+│  └─ budgetBooks/
+│     ├─ BudgetBooksPage.jsx
+│     └─ BudgetBookDetailPage.jsx
 ├─ components/
 │  ├─ common/
 │  │  ├─ Button.jsx
@@ -100,7 +102,12 @@ src/
 ├─ lib/
 │  └─ firebase.js
 └─ test/
-   └─ setup.js
+   ├─ setup.js
+   ├─ components/
+   │  └─ budgetBooks/
+   │     └─ BudgetBookForm.test.jsx
+   └─ services/
+      └─ budgetBooksService.test.js
 ```
 
 Important pattern:

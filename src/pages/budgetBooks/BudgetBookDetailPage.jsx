@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
-import { ButtonLink } from "../components/common/Button";
-import Panel from "../components/common/Panel";
+import { ButtonLink } from "../../components/common/Button";
+import Panel from "../../components/common/Panel";
 
 export default function BudgetBookDetailPage() {
   const { id } = useParams();

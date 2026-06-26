@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
-import BudgetBookForm from "./BudgetBookForm";
+import BudgetBookForm from "../../../components/budgetBooks/BudgetBookForm";
 
 describe("BudgetBookForm", () => {
   it("submits the entered name and description, then clears the form", async () => {

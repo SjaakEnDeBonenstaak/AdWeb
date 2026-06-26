@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { addDoc, updateDoc } from "firebase/firestore";
-import { createBudgetBook, updateBudgetBook } from "./budgetBooksService";
+import { createBudgetBook, updateBudgetBook } from "../../services/budgetBooksService";
 
-vi.mock("../lib/firebase", () => ({
+vi.mock("../../lib/firebase", () => ({
   db: {},
 }));
 
