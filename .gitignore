@@ -11,7 +11,13 @@ node_modules
 dist
 dist-ssr
 *.local
+
+# Environment files
+.env
 .env.local
+
+# Local agent instructions
+AGENTS.md
 
 # Editor directories and files
 .vscode/*
