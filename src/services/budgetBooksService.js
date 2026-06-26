@@ -6,11 +6,11 @@ import { db } from "../lib/firebase";
 
 const COLLECTION = "budgetBooks";
 
-export function subscribeToBudgetBooks(userId, callback) {
+export function subscribeToBudgetBooks(userId, callback, { archived = false } = {}) {
   const q = query(
     collection(db, COLLECTION),
     where("ownerId", "==", userId),
-    where("archived", "==", false)
+    where("archived", "==", archived)
   );
   return onSnapshot(q, (snapshot) => {
     callback(snapshot.docs.map((d) => ({ id: d.id, ...d.data() })));
@@ -25,6 +25,14 @@ export async function createBudgetBook({ name, description, ownerId }) {
     ownerId,
     archived: false,
     createdAt: serverTimestamp(),
+  });
+}
+
+export async function updateBudgetBook(id, { name, description }) {
+  if (!name?.trim()) throw new Error("Naam is verplicht");
+  return updateDoc(doc(db, COLLECTION, id), {
+    name: name.trim(),
+    description: description?.trim() ?? "",
   });
 }
 

@@ -7,7 +7,17 @@ import { useBudgetBooks } from "../hooks/useBudgetBooks";
 export default function BudgetBooksPage() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const { budgetBooks, loading, error, add } = useBudgetBooks(user?.uid);
+  const {
+    budgetBooks,
+    archivedBudgetBooks,
+    loading,
+    archivedLoading,
+    error,
+    add,
+    update,
+    archive,
+    restore,
+  } = useBudgetBooks(user?.uid);
 
   async function handleLogout() {
     await logout();
@@ -28,7 +38,25 @@ export default function BudgetBooksPage() {
       </header>
 
       <BudgetBookForm error={error} onAddBudgetBook={add} />
-      <BudgetBookList budgetBooks={budgetBooks} loading={loading} />
+
+      <section className="space-y-3">
+        <h2 className="text-lg font-semibold text-slate-900">Actieve huishoudboekjes</h2>
+        <BudgetBookList budgetBooks={budgetBooks}
+          loading={loading}
+          emptyMessage="Je hebt nog geen huishoudboekjes."
+          onArchiveBudgetBook={archive}
+          onUpdateBudgetBook={update} />
+      </section>
+
+      <section className="space-y-3">
+        <h2 className="text-lg font-semibold text-slate-900">Gearchiveerde huishoudboekjes</h2>
+        <BudgetBookList budgetBooks={archivedBudgetBooks}
+          loading={archivedLoading}
+          archived
+          emptyMessage="Je hebt geen gearchiveerde huishoudboekjes."
+          onRestoreBudgetBook={restore}
+          onUpdateBudgetBook={update} />
+      </section>
     </div>
   );
 }
