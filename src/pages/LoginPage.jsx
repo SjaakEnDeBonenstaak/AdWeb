@@ -44,6 +44,17 @@ export default function LoginPage() {
     setErrorMessage(null);
   }
 
+  let submitLabel = "Inloggen";
+  if (submitting) {
+    submitLabel = "Bezig...";
+  } else if (isRegistering) {
+    submitLabel = "Account aanmaken";
+  }
+
+  const switchModeLabel = isRegistering
+    ? "Heb je al een account? Log in"
+    : "Nog geen account? Registreer";
+
   return (
     <main className="flex min-h-screen items-center justify-center px-4 py-10">
       <Panel className="w-full max-w-sm space-y-6">
@@ -61,17 +72,11 @@ export default function LoginPage() {
             minLength={6} />
           {errorMessage && <p className="text-sm text-(--color-danger)">{errorMessage}</p>}
           <Button type="submit" variant="primary" disabled={submitting} className="w-full">
-            {submitting
-              ? "Bezig..."
-              : isRegistering
-                ? "Account aanmaken"
-                : "Inloggen"}
+            {submitLabel}
           </Button>
         </form>
         <Button type="button" variant="ghost" onClick={toggleMode} className="w-full">
-          {isRegistering
-            ? "Heb je al een account? Log in"
-            : "Nog geen account? Registreer"}
+          {switchModeLabel}
         </Button>
       </Panel>
     </main>
