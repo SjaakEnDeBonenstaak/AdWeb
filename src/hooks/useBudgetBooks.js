@@ -36,10 +36,14 @@ export function useBudgetBooks(userId) {
       setBudgetBooks(data);
       setLoading(false);
     });
-    const unsubscribeArchived = subscribeToBudgetBooks(userId, (data) => {
-      setArchivedBudgetBooks(data);
-      setArchivedLoading(false);
-    }, { archived: true });
+    const unsubscribeArchived = subscribeToBudgetBooks(
+      userId,
+      (data) => {
+        setArchivedBudgetBooks(data);
+        setArchivedLoading(false);
+      },
+      { archived: true },
+    );
     return () => {
       unsubscribe();
       unsubscribeArchived();

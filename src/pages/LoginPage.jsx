@@ -32,7 +32,7 @@ export default function LoginPage() {
       setErrorMessage(
         isRegistering
           ? "Registreren mislukt. Controleer je gegevens."
-          : "Inloggen mislukt. Controleer je gegevens."
+          : "Inloggen mislukt. Controleer je gegevens.",
       );
     } finally {
       setSubmitting(false);
@@ -65,17 +65,39 @@ export default function LoginPage() {
           </h1>
         </div>
         <form onSubmit={handleSubmit} className="space-y-3">
-          <TextInput type="email" placeholder="E-mailadres" value={email}
-            onChange={(e) => setEmail(e.target.value)} required />
-          <TextInput type="password" placeholder="Wachtwoord" value={password}
-            onChange={(e) => setPassword(e.target.value)} required
-            minLength={6} />
-          {errorMessage && <p className="text-sm text-(--color-danger)">{errorMessage}</p>}
-          <Button type="submit" variant="primary" disabled={submitting} className="w-full">
+          <TextInput
+            type="email"
+            placeholder="E-mailadres"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <TextInput
+            type="password"
+            placeholder="Wachtwoord"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            minLength={6}
+          />
+          {errorMessage && (
+            <p className="text-sm text-(--color-danger)">{errorMessage}</p>
+          )}
+          <Button
+            type="submit"
+            variant="primary"
+            disabled={submitting}
+            className="w-full"
+          >
             {submitLabel}
           </Button>
         </form>
-        <Button type="button" variant="ghost" onClick={toggleMode} className="w-full">
+        <Button
+          type="button"
+          variant="ghost"
+          onClick={toggleMode}
+          className="w-full"
+        >
           {switchModeLabel}
         </Button>
       </Panel>

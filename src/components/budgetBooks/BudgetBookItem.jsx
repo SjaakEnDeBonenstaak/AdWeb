@@ -42,18 +42,30 @@ export default function BudgetBookItem({
         <Panel className="shadow-none">
           <form onSubmit={handleSubmit} className="space-y-4">
             <Field id={`budget-book-${budgetBook.id}-name`} label="Naam">
-              <TextInput id={`budget-book-${budgetBook.id}-name`} type="text" value={name}
-              onChange={(e) => setName(e.target.value)} required
-              placeholder="Naam" />
+              <TextInput
+                id={`budget-book-${budgetBook.id}-name`}
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+                placeholder="Naam"
+              />
             </Field>
-            <Field id={`budget-book-${budgetBook.id}-description`} label="Omschrijving">
-              <TextArea id={`budget-book-${budgetBook.id}-description`} value={description}
-              onChange={(e) => setDescription(e.target.value)} rows={3}
-              placeholder="Omschrijving" />
+            <Field
+              id={`budget-book-${budgetBook.id}-description`}
+              label="Omschrijving"
+            >
+              <TextArea
+                id={`budget-book-${budgetBook.id}-description`}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                rows={3}
+                placeholder="Omschrijving"
+              />
             </Field>
             <div className="flex flex-wrap gap-2">
               <Button type="submit" variant="primary" disabled={submitting}>
-              {submitting ? "Opslaan..." : "Opslaan"}
+                {submitting ? "Opslaan..." : "Opslaan"}
               </Button>
               <Button type="button" variant="secondary" onClick={cancelEditing}>
                 Annuleren
@@ -71,7 +83,8 @@ export default function BudgetBookItem({
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <div className="flex flex-wrap items-center gap-2">
-              <h2 className={`font-semibold ${archived ? "text-(--color-text-secondary)" : "text-(--color-text-primary)"}`}>
+              <h2 className={`font-semibold ${archived ? "text-(--color-text-secondary)" : "text-(--color-text-primary)"}`}
+              >
                 {budgetBook.name}
               </h2>
               {archived && (
