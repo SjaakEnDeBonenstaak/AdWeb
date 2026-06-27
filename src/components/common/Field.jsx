@@ -19,3 +19,11 @@ export function TextInput({ className = "", ...props }) {
 export function TextArea({ className = "", ...props }) {
   return <textarea className={`${fieldClass} resize-none ${className}`} {...props} />;
 }
+
+export function Select({ className = "", children, ...props }) {
+  return (
+    <select className={`${fieldClass} ${className}`} {...props}>
+      {children}
+    </select>
+  );
+}

@@ -43,3 +43,9 @@ export async function setArchivedStatus(id, archived) {
 export async function deleteBudgetBook(id) {
   return deleteDoc(doc(db, COLLECTION, id));
 }
+
+export function subscribeToBudgetBook(id, callback) {
+  return onSnapshot(doc(db, COLLECTION, id), (snapshot) => {
+    if (snapshot.exists()) callback({ id: snapshot.id, ...snapshot.data() });
+  });
+}

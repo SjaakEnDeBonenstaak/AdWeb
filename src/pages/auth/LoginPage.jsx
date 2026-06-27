@@ -28,12 +28,18 @@ export default function LoginPage() {
         await login(email, password);
       }
       navigate(destination, { replace: true });
-    } catch {
-      setErrorMessage(
-        isRegistering
-          ? "Registreren mislukt. Controleer je gegevens."
-          : "Inloggen mislukt. Controleer je gegevens.",
-      );
+    } catch (err) {
+      const code = err?.code ?? "";
+      let message = isRegistering
+        ? "Registreren mislukt. Controleer je gegevens."
+        : "Inloggen mislukt. Controleer je gegevens.";
+      if (code === "auth/email-already-in-use") message = "Dit e-mailadres is al in gebruik.";
+      else if (code === "auth/invalid-email") message = "Ongeldig e-mailadres.";
+      else if (code === "auth/weak-password") message = "Wachtwoord moet minimaal 6 tekens zijn.";
+      else if (code === "auth/user-not-found" || code === "auth/wrong-password" || code === "auth/invalid-credential") message = "E-mailadres of wachtwoord klopt niet.";
+      else if (code === "auth/operation-not-allowed") message = `Aanmelden niet ingeschakeld (${code}).`;
+      else if (code) message += ` (${code})`;
+      setErrorMessage(message);
     } finally {
       setSubmitting(false);
     }
