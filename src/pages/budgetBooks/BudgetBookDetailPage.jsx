@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ButtonLink } from "../../components/common/Button";
-import Panel from "../../components/common/Panel";
+import CategoryForm from "../../components/categories/CategoryForm";
+import CategoryList from "../../components/categories/CategoryList";
 import TransactionForm from "../../components/transactions/TransactionForm";
 import TransactionList from "../../components/transactions/TransactionList";
 import TransactionStats from "../../components/transactions/TransactionStats";
@@ -19,7 +20,7 @@ export default function BudgetBookDetailPage() {
   const [budgetBook, setBudgetBook] = useState(null);
   const [selectedMonth, setSelectedMonth] = useState(currentMonth);
   const { transactions, loading, error, add, update, remove } = useTransactions(id);
-  const { categories } = useCategories(id);
+  const { categories, error: catError, add: addCategory, update: updateCategory, remove: removeCategory } = useCategories(id);
 
   useEffect(() => {
     return subscribeToBudgetBook(id, setBudgetBook);
@@ -71,9 +72,15 @@ export default function BudgetBookDetailPage() {
 
       <section className="space-y-3">
         <h2 className="text-lg font-semibold text-(--color-text-primary)">Categorieën</h2>
-        <Panel className="border-dashed shadow-none">
-          <p className="text-sm text-(--color-text-muted)">Categorieën komen in de volgende stap.</p>
-        </Panel>
+        <CategoryForm error={catError} onSubmit={addCategory} />
+        <CategoryList
+          categories={categories}
+          transactions={transactions}
+          loading={false}
+          error={catError}
+          onUpdate={updateCategory}
+          onDelete={removeCategory}
+        />
       </section>
     </main>
   );
