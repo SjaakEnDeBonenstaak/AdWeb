@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import { ButtonLink } from "../../components/common/Button";
 import CategoryForm from "../../components/categories/CategoryForm";
 import CategoryList from "../../components/categories/CategoryList";
@@ -18,15 +18,33 @@ function currentMonth() {
 export default function BudgetBookDetailPage() {
   const { id } = useParams();
   const [budgetBook, setBudgetBook] = useState(null);
+  const [budgetBookLoading, setBudgetBookLoading] = useState(true);
   const [selectedMonth, setSelectedMonth] = useState(currentMonth);
   const { transactions, loading, error, add, update, remove } = useTransactions(id);
   const { categories, error: catError, add: addCategory, update: updateCategory, remove: removeCategory } = useCategories(id);
 
   useEffect(() => {
-    return subscribeToBudgetBook(id, setBudgetBook);
+    setBudgetBookLoading(true);
+
+    return subscribeToBudgetBook(id, (data) => {
+      setBudgetBook(data);
+      setBudgetBookLoading(false);
+    });
   }, [id]);
 
   const filtered = transactions.filter((tx) => tx.date?.startsWith(selectedMonth));
+
+  if (budgetBookLoading) {
+    return (
+      <main className="mx-auto max-w-3xl px-4 py-8 sm:px-6">
+        <p className="text-(--color-text-muted)">Laden...</p>
+      </main>
+    );
+  }
+
+  if (!budgetBook || budgetBook.archived) {
+    return <Navigate to="/budget-books" replace />;
+  }
 
   return (
     <main className="mx-auto max-w-3xl space-y-7 px-4 py-8 sm:px-6">
@@ -34,9 +52,9 @@ export default function BudgetBookDetailPage() {
         <div>
           <p className="text-sm font-medium text-(--color-accent)">Huishoudboekje</p>
           <h1 className="mt-1 text-3xl font-semibold text-(--color-text-primary)">
-            {budgetBook?.name ?? "Laden..."}
+            {budgetBook.name}
           </h1>
-          {budgetBook?.description && (
+          {budgetBook.description && (
             <p className="mt-1 text-sm text-(--color-text-muted)">{budgetBook.description}</p>
           )}
         </div>

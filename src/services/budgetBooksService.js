@@ -46,6 +46,6 @@ export async function deleteBudgetBook(id) {
 
 export function subscribeToBudgetBook(id, callback) {
   return onSnapshot(doc(db, COLLECTION, id), (snapshot) => {
-    if (snapshot.exists()) callback({ id: snapshot.id, ...snapshot.data() });
+    callback(snapshot.exists() ? { id: snapshot.id, ...snapshot.data() } : null);
   });
 }
