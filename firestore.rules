@@ -1,0 +1,37 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function ownsBudgetBook() {
+      return isSignedIn()
+        && resource.data.ownerId == request.auth.uid;
+    }
+
+    function ownsNewBudgetBook() {
+      return isSignedIn()
+        && request.resource.data.ownerId == request.auth.uid;
+    }
+
+    function ownsParentBudgetBook(budgetBookId) {
+      return isSignedIn()
+        && get(/databases/$(database)/documents/budgetBooks/$(budgetBookId)).data.ownerId == request.auth.uid;
+    }
+
+    match /budgetBooks/{budgetBookId} {
+      allow read, update, delete: if ownsBudgetBook();
+      allow create: if ownsNewBudgetBook();
+
+      match /transactions/{transactionId} {
+        allow read, create, update, delete: if ownsParentBudgetBook(budgetBookId);
+      }
+
+      match /categories/{categoryId} {
+        allow read, create, update, delete: if ownsParentBudgetBook(budgetBookId);
+      }
+    }
+  }
+}
