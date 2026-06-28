@@ -21,6 +21,9 @@
     --color-archived-border: rgb(148 163 184 / 0.2);
     --color-archived-badge: rgb(148 163 184 / 0.12);
     --color-shadow: rgb(2 6 23 / 0.2);
+    --color-warning: #fde68a;
+    --color-warning-surface: rgb(251 191 36 / 0.1);
+    --color-warning-border: rgb(251 191 36 / 0.2);
   }
 
   html {
