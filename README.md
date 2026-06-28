@@ -42,7 +42,7 @@ npm run test:coverage
 
 ## Firestore
 
-Collection:
+Top-level collection:
 
 ```txt
 budgetBooks
@@ -66,6 +66,37 @@ Rules in the app logic:
 - `ownerId` is the Firebase Auth UID of the owner.
 - The active list filters on `archived === false`.
 - The archived list filters on `archived === true`.
+
+Nested subcollections:
+
+```txt
+budgetBooks/{budgetBookId}/transactions
+budgetBooks/{budgetBookId}/categories
+```
+
+Transaction shape:
+
+```js
+{
+  type: "expense", // or "income"
+  amount: 25.5,
+  description: "Groceries",
+  date: "2026-06-28",
+  categoryId: "category-id-or-null",
+  createdAt: serverTimestamp()
+}
+```
+
+Category shape:
+
+```js
+{
+  name: "Groceries",
+  maxBudget: 300,
+  endDate: "2026-07-31", // or null
+  createdAt: serverTimestamp()
+}
+```
 
 ## Code Structure
 
@@ -91,23 +122,42 @@ src/
 │  │  ├─ BudgetBookItem.jsx
 │  │  └─ BudgetBookList.jsx
 │  ├─ categories/
-│  └─ expenses/
+│  │  ├─ CategoryForm.jsx
+│  │  ├─ CategoryItem.jsx
+│  │  └─ CategoryList.jsx
+│  └─ transactions/
+│     ├─ TransactionForm.jsx
+│     ├─ TransactionItem.jsx
+│     ├─ TransactionList.jsx
+│     └─ TransactionStats.jsx
 ├─ contexts/
 │  └─ AuthContext.jsx
 ├─ hooks/
-│  └─ useBudgetBooks.js
+│  ├─ useBudgetBooks.js
+│  ├─ useCategories.js
+│  └─ useTransactions.js
 ├─ services/
 │  ├─ authService.js
-│  └─ budgetBooksService.js
+│  ├─ budgetBooksService.js
+│  ├─ categoriesService.js
+│  └─ transactionsService.js
 ├─ lib/
 │  └─ firebase.js
 └─ test/
    ├─ setup.js
    ├─ components/
-   │  └─ budgetBooks/
-   │     └─ BudgetBookForm.test.jsx
+   │  ├─ budgetBooks/
+   │  │  └─ BudgetBookForm.test.jsx
+   │  ├─ categories/
+   │  │  ├─ CategoryForm.test.jsx
+   │  │  └─ CategoryItem.test.jsx
+   │  └─ transactions/
+   │     ├─ TransactionForm.test.jsx
+   │     └─ TransactionStats.test.jsx
    └─ services/
-      └─ budgetBooksService.test.js
+      ├─ budgetBooksService.test.js
+      ├─ categoriesService.test.js
+      └─ transactionsService.test.js
 ```
 
 Important pattern:
